@@ -2,8 +2,10 @@
 library(dplyr)
 library(readr)
 library(ggplot2)
+library(lubridate)
 
-df <- read_csv("Intergrated Data/20241011_trial-2_59187.csv")
+df <- read_csv("Intergrated Data/20241011_trial-2_59187.csv") %>%
+  mutate(Time = as.numeric(Time))
 
 
 
@@ -54,3 +56,32 @@ ggplot(behavior_durations, aes(x = Behavior, y = Total_Duration, fill = Behavior
 
 
 
+# Event timeline plot/Gantt chart
+# 配對 START 和 STOP 計算行為持續時間
+df_duration <- df %>%
+  filter(`Behavior type` %in% c("START", "STOP")) %>%
+  group_by(Subject, Behavior) %>%
+  arrange(Time) %>%
+  mutate(Next_Time = lead(Time)) %>%
+  filter(`Behavior type` == "START") %>%
+  mutate(Duration = Next_Time - Time) %>%
+  ungroup()
+
+# 轉換時間格式
+df_duration <- df_duration %>%
+  mutate(Time = as.POSIXct(Time, origin = "1970-01-01", tz = "UTC"),
+         End_Time = as.POSIXct(Next_Time, origin = "1970-01-01", tz = "UTC"))
+T0 <- as.Date(df_duration$Time[1])  # 取第一個時間點的日期
+df_duration$End_Time[1] <- as.POSIXct(paste(T0, "00:00:00"), tz = "UTC")
+
+
+# 繪製時間軸行為對應圖
+ggplot(df_duration, aes(x = Time, xend = End_Time, y = Behavior, yend = Behavior, color = Behavior)) +
+  geom_segment(size = 5) +  # 使用線條代表時間持續長度
+  scale_x_datetime(date_labels = "%H:%M:%S", date_breaks = "5 min") +  # 設定時間標籤
+  theme_minimal() +
+  labs(title = "20241011_trial-2_59187",
+       x = "Time (HH:MM:SS)",
+       y = "Behavior",
+       color = "Category") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
