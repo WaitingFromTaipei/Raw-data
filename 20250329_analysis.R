@@ -22,13 +22,14 @@ behavior_counts$Behavior <- factor(behavior_counts$Behavior,
                                    levels = c(order, setdiff(behavior_counts$Behavior, order)))
   
 # 繪製行為次數長條圖
-ggplot(behavior_counts, aes(x = Behavior, y = Count, fill = Behavior)) +
+count <- ggplot(behavior_counts, aes(x = Behavior, y = Count, fill = Behavior)) +
   geom_bar(stat = "identity", show.legend = FALSE) +
   labs(title = "Number of occurrences of behaviors",
        x = "Behaviors", y = "Number of occurrences") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
+ggsave(count, filename = "Outputs/20241011_trial-2_59187_count.png",width = 16,
+       height = 12,units = "cm")
 
 
 # 行為總持續時間統計
@@ -47,13 +48,14 @@ behavior_durations$Behavior <- factor(behavior_durations$Behavior,
                                    levels = c(order, setdiff(behavior_counts$Behavior, order)))
 
 # 繪製行為持續時間長條圖
-ggplot(behavior_durations, aes(x = Behavior, y = Total_Duration, fill = Behavior)) +
+duration <- ggplot(behavior_durations, aes(x = Behavior, y = Total_Duration, fill = Behavior)) +
   geom_bar(stat = "identity", show.legend = FALSE) +
   labs(title = "Durations of behaviors",
        x = "Behaviors", y = "Duration (s)") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
+ggsave(duration, filename = "Outputs/20241011_trial-2_59187_duration.png",width = 16,
+       height = 12,units = "cm")
 
 
 # Event timeline plot/Gantt chart
@@ -74,10 +76,12 @@ df_duration <- df_duration %>%
 T0 <- as.Date(df_duration$Time[1])  # 取第一個時間點的日期
 df_duration$End_Time[1] <- as.POSIXct(paste(T0, "00:00:00"), tz = "UTC")
 
+# 設定 y 軸順序
+df_duration$Behavior <- factor(df_duration$Behavior, levels = order)
 
 # 繪製時間軸行為對應圖
-ggplot(df_duration, aes(x = Time, xend = End_Time, y = Behavior, yend = Behavior, color = Behavior)) +
-  geom_segment(size = 5) +  # 使用線條代表時間持續長度
+gantt <- ggplot(df_duration, aes(x = Time, xend = End_Time, y = Behavior, yend = Behavior, color = Behavior)) +
+  geom_segment(size = 20) +  # 使用線條代表時間持續長度
   scale_x_datetime(date_labels = "%H:%M:%S", date_breaks = "5 min") +  # 設定時間標籤
   theme_minimal() +
   labs(title = "20241011_trial-2_59187",
@@ -85,3 +89,5 @@ ggplot(df_duration, aes(x = Time, xend = End_Time, y = Behavior, yend = Behavior
        y = "Behavior",
        color = "Category") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+ggsave(gantt, filename = "Outputs/20241011_trial-2_59187_gantt.png",width = 80,
+       height = 20,units = "cm")
