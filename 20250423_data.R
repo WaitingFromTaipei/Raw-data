@@ -2,6 +2,7 @@ library(dplyr)
 library(readr)
 library(tidyr)
 library(ggplot2)
+library(ggthemes)
 
 Info <- read_csv("20250331高田前測進度.csv")
 
@@ -37,8 +38,51 @@ Food_weight <- Food_weight %>%mutate(`Exp food intake` = 30-`Exp剩餘食物量(
 Food_weight <- Food_weight %>% slice(-1,-2,-3) # slice:使用橫列索引選取特定橫列
 # 後續可使用slice來選取特定次序之實驗數據
 
+
+# base
 boxplot(Food_weight$`Exp food intake`, Food_weight$`Control food intake`)
-# ggplot待研究
+
+# ggplot
+Food_weight_gg <- Food_weight %>%
+  select(`Exp food intake`,`Control food intake`)%>%
+  rename(`Experimental group`=`Exp food intake`, `Control group`=`Control food intake`)%>%
+  pivot_longer(cols = everything(), 
+               names_to = "Group", 
+               values_to = "Intake")
+# rename(new_name = old_name)
+
+Food_weight_box <- ggplot(data=Food_weight_gg,
+                          mapping=aes(x = Group, y = Intake, fill = Group))+
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Food Intake by Group", y = "Intake (g)", x = "")
+Food_weight_box
+
+# histogram
+hist(Food_weight$`Exp food intake`)
+hist(Food_weight$`Control food intake`)
+# 常態性檢定:Shapiro-Wilk test
+shapiro.test(Food_weight$`Exp food intake`) # W = 0.83688, p-value = 0.008787
+shapiro.test(Food_weight$`Control food intake`) # W = 0.84176, p-value = 0.01033
+
+# QQ Plot
+qqnorm(Food_weight$`Exp food intake`)
+qqline(Food_weight$`Exp food intake`, col = "red")
+
+qqnorm(Food_weight$`Control food intake`)
+qqline(Food_weight$`Control food intake`, col = "blue")
+
+# Density plot
+ggplot(Food_weight_gg, aes(x = Intake, fill = Group)) +
+  geom_density(alpha = 0.5) +
+  theme_minimal() +
+  labs(title = "Density Plot of Food Intake by Group")
+
+# Mann–Whitney U test
+wilcox.test(Food_weight$`Exp food intake`, Food_weight$`Control food intake`, paired = TRUE)
+# V = 77, p-value = 0.6685
+# alternative hypothesis: true location shift is not equal to 0
+
 
 
 
