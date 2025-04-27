@@ -33,10 +33,18 @@ Trial9_Ctr <- read_tsv("trial-9/20241026_trial-9_59187_R.tsv")
 # 高田進食重量比較
 
 Food_weight <- Info %>% select(Trial, `Exp剩餘食物量(g)`,`Control剩餘食物量(g)`)
-Food_weight <- Food_weight %>%mutate(`Exp food intake` = 30-`Exp剩餘食物量(g)`,
+Food_weight <- Food_weight %>% mutate(`Exp food intake` = 30-`Exp剩餘食物量(g)`,
                                      `Control food intake` = 30-`Control剩餘食物量(g)`)
 Food_weight <- Food_weight %>% slice(-1,-2,-3) # slice:使用橫列索引選取特定橫列
 # 後續可使用slice來選取特定次序之實驗數據
+
+# summary
+summary(Food_weight$`Exp food intake`)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.280   0.815   1.640   1.999   2.413   7.000 
+summary(Food_weight$`Control food intake`)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.250   0.895   1.205   1.689   2.115   5.640 
 
 
 # base
@@ -54,10 +62,10 @@ Food_weight_gg <- Food_weight %>%
 Food_weight_box <- ggplot(data=Food_weight_gg,
                           mapping=aes(x = Group, y = Intake, fill = Group))+
   geom_boxplot() +
-  theme_minimal() +
   labs(title = "Food Intake by Group", y = "Intake (g)", x = "")
 Food_weight_box
-
+ggsave(Food_weight_box,filename = "Outputs/Food_weight_box.png",width = 15,
+       height = 15,units = "cm")
 # histogram
 hist(Food_weight$`Exp food intake`)
 hist(Food_weight$`Control food intake`)
@@ -132,4 +140,70 @@ Dura7_ctr <- Duration(Trial7_Ctr, "Right cage")
 Dura9_exp <- Duration(Trial9_Exp, "Left cage")
 Dura9_ctr <- Duration(Trial9_Ctr, "Right cage")
 
-# 用3,4,5,6,7,9次實驗資料?
+# 用3,4,5,6,7,9次實驗資料
+# 總接觸時長
+sum_exp<- c(sum(Dura3_exp$Duration), sum(Dura4_exp$Duration),
+            sum(Dura5_exp$Duration), sum(Dura6_exp$Duration),
+            sum(Dura7_exp$Duration), sum(Dura9_exp$Duration))
+
+sum_ctr<- c(sum(Dura3_ctr$Duration), sum(Dura4_ctr$Duration),
+            sum(Dura5_ctr$Duration), sum(Dura6_ctr$Duration),
+            sum(Dura7_ctr$Duration), sum(Dura9_ctr$Duration))
+
+Dura_sum <- data.frame(sum_exp, sum_ctr)
+
+# summary
+summary(sum_exp)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 484.7   497.8   658.8   678.4   857.1   900.6 
+summary(sum_ctr)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 433.9   493.7   662.8   646.5   798.1   839.1 
+  
+# base
+boxplot(Dura_sum$sum_exp,Dura_sum$sum_ctr)
+hist(Dura_sum$sum_exp)
+hist(Dura_sum$sum_ctr)
+
+# ggplot
+Dura_sum_gg <- Dura_sum %>%
+  rename(`Experimental group`=sum_exp, `Control group`=sum_ctr)%>%
+  pivot_longer(cols = everything(), 
+               names_to = "Group", 
+               values_to = "Duration")
+
+Dura_sum_box <- ggplot(data=Dura_sum_gg,
+                          mapping=aes(x = Group, y = Duration, fill = Group))+
+  geom_boxplot() +
+  labs(title = "Duration by Group (First Six Individuals)", y = "Duration (s)", x = "")
+Dura_sum_box
+ggsave(Dura_sum_box,filename = "Outputs/Dura_sum_box.png",width = 15,
+       height = 15,units = "cm")
+
+
+# 每次接觸時長
+# 觀察兩組觸碰時長的分布是否不同
+List_Exp <- list(Dura3_exp$Duration, Dura4_exp$Duration,
+                 Dura5_exp$Duration, Dura6_exp$Duration,
+                 Dura7_exp$Duration, Dura9_exp$Duration) 
+List_Ctr <- list(Dura3_ctr$Duration, Dura4_ctr$Duration,
+                 Dura5_ctr$Duration, Dura6_ctr$Duration,
+                 Dura7_ctr$Duration, Dura9_ctr$Duration)
+
+exp_df <- data.frame(Duration = unlist(List_Exp),
+                              Group = "Experimental")
+ctr_df <- data.frame(Duration = unlist(List_Ctr),
+                         Group = "Control")
+
+df_all <- rbind(exp_df, ctr_df)
+
+Dura_density <- ggplot(df_all, aes(x = Duration, color = Group, fill = Group)) +
+  geom_density(alpha = 0.4) +
+  labs(x = "Contact Duration (s)", y = "Density", title = "Contact Duration Density Plot")
+Dura_density 
+ggsave(Dura_density ,filename = "Outputs/Dura_density.png",width = 15,
+       height = 15,units = "cm")
+
+ggplot(df_all, aes(x = Duration, fill = Group)) +
+  geom_histogram(position = "identity", alpha = 0.5, bins = 30) +
+  labs(x = "Contact duration (s)", y = "Count", fill = "Object", title = "Contact Duration Histogram")

@@ -3,9 +3,9 @@ library(readr)
 library(openxlsx)
 
 # 讀取 TSV 檔案
-file_m <- "trial-2/20241011_trial-2_59187_M.tsv"
-file_l <- "trial-2/20241011_trial-2_59187_L.tsv"
-file_r <- "trial-2/20241011_trial-2_59187_R.tsv"
+file_m <- "trial-1/20241010_trial-1_yellow_M.tsv"
+file_l <- "trial-1/20241010_trial-1_yellow_L.tsv"
+file_r <- "trial-1/20241010_trial-1_yellow_R.tsv"
 
 df_m <- read_tsv(file_m) %>% mutate(Source = "M", Time_M = Time, Time_Other = NA, Index_M = `Image index`, Index_Other = NA)
 df_l <- read_tsv(file_l) %>% mutate(Source = "L", Time_M = NA, Time_Other = Time, Index_M = NA, Index_Other = `Image index`)
@@ -41,4 +41,4 @@ for (i in 1:nrow(df_combined)) {
 }
 
 # 儲存 Excel 檔案
-saveWorkbook(wb, "trial-2/20241011_trial-2_59187_marked.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "trial-1/20241010_trial-1_yellow_marked.xlsx", overwrite = TRUE)

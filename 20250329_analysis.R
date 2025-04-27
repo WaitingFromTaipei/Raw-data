@@ -4,7 +4,7 @@ library(readr)
 library(ggplot2)
 library(lubridate)
 
-df <- read_csv("Intergrated Data/20241011_trial-2_59187.csv") %>%
+df <- read_csv("Intergrated Data/20241013_trial-3_59215.csv") %>%
   mutate(Time = as.numeric(Time))
 
 
@@ -26,9 +26,9 @@ count <- ggplot(behavior_counts, aes(x = Behavior, y = Count, fill = Behavior)) 
   geom_bar(stat = "identity", show.legend = FALSE) +
   labs(title = "Number of occurrences of behaviors",
        x = "Behaviors", y = "Number of occurrences") +
-  theme_minimal() +
+  theme_linedraw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave(count, filename = "Outputs/20241011_trial-2_59187_count.png",width = 16,
+ggsave(count, filename = "Outputs/20241013_trial-3_59215_count.png",width = 16,
        height = 12,units = "cm")
 
 
@@ -52,9 +52,9 @@ duration <- ggplot(behavior_durations, aes(x = Behavior, y = Total_Duration, fil
   geom_bar(stat = "identity", show.legend = FALSE) +
   labs(title = "Durations of behaviors",
        x = "Behaviors", y = "Duration (s)") +
-  theme_minimal() +
+  theme_linedraw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave(duration, filename = "Outputs/20241011_trial-2_59187_duration.png",width = 16,
+ggsave(duration, filename = "Outputs/20241013_trial-3_59215_duration.png",width = 16,
        height = 12,units = "cm")
 
 
@@ -81,13 +81,13 @@ df_duration$Behavior <- factor(df_duration$Behavior, levels = order)
 
 # 繪製時間軸行為對應圖
 gantt <- ggplot(df_duration, aes(x = Time, xend = End_Time, y = Behavior, yend = Behavior, color = Behavior)) +
-  geom_segment(size = 20) +  # 使用線條代表時間持續長度
+  geom_segment(linewidth = 20) +  # 使用線條代表時間持續長度
   scale_x_datetime(date_labels = "%H:%M:%S", date_breaks = "5 min") +  # 設定時間標籤
-  theme_minimal() +
-  labs(title = "20241011_trial-2_59187",
+  theme_linedraw() +
+  labs(title = "20241013_trial-3_59215",
        x = "Time (HH:MM:SS)",
        y = "Behavior",
        color = "Category") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-ggsave(gantt, filename = "Outputs/20241011_trial-2_59187_gantt.png",width = 80,
+ggsave(gantt, filename = "Outputs/20241013_trial-3_59215_gantt.png",width = 80,
        height = 20,units = "cm")
