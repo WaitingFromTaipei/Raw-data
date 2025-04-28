@@ -32,19 +32,29 @@ Trial9_Ctr <- read_tsv("trial-9/20241026_trial-9_59187_R.tsv")
 
 # 高田進食重量比較
 
-Food_weight <- Info %>% select(Trial, `Exp剩餘食物量(g)`,`Control剩餘食物量(g)`)
-Food_weight <- Food_weight %>% mutate(`Exp food intake` = 30-`Exp剩餘食物量(g)`,
-                                     `Control food intake` = 30-`Control剩餘食物量(g)`)
-Food_weight <- Food_weight %>% slice(-1,-2,-3) # slice:使用橫列索引選取特定橫列
+Food_weight <- Info %>% select(Trial, `Exp剩餘食物量(g)`,`Control剩餘食物量(g)`,
+                               `Exp被叼出食物量(g)`,`Control被叼出食物量(g)`) 
+  
+Food_weight <- Food_weight %>% slice(-1,-2,-3,-9) # slice:使用橫列索引選取特定橫列
+
+Food_weight$`Exp被叼出食物量(g)` <- as.numeric(Food_weight$`Exp被叼出食物量(g)`)
+Food_weight$`Control被叼出食物量(g)` <- as.numeric(Food_weight$`Control被叼出食物量(g)`)
+str(Food_weight)
+
 # 後續可使用slice來選取特定次序之實驗數據
+Food_weight <- Food_weight %>% mutate(`Exp food intake` = 30 - `Exp剩餘食物量(g)`,
+                                      `Control food intake` = 30 - `Control剩餘食物量(g)`)
+Food_weight <- Food_weight %>% mutate(`Exp food intake` = `Exp food intake` - `Exp被叼出食物量(g)`, 
+                                      `Control food intake` = `Control food intake` - `Control被叼出食物量(g)`)
+
 
 # summary
 summary(Food_weight$`Exp food intake`)
 # Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-# 0.280   0.815   1.640   1.999   2.413   7.000 
+# 0.280   0.780   1.910   2.001   2.475   6.400 
 summary(Food_weight$`Control food intake`)
 # Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-# 0.250   0.895   1.205   1.689   2.115   5.640 
+# 0.250   0.695   1.130   1.531   2.030   4.720 
 
 
 # base
@@ -70,8 +80,8 @@ ggsave(Food_weight_box,filename = "Outputs/Food_weight_box.png",width = 15,
 hist(Food_weight$`Exp food intake`)
 hist(Food_weight$`Control food intake`)
 # 常態性檢定:Shapiro-Wilk test
-shapiro.test(Food_weight$`Exp food intake`) # W = 0.83688, p-value = 0.008787
-shapiro.test(Food_weight$`Control food intake`) # W = 0.84176, p-value = 0.01033
+shapiro.test(Food_weight$`Exp food intake`) # W = 0.87456, p-value = 0.03938
+shapiro.test(Food_weight$`Control food intake`) # W = 0.87289, p-value = 0.03721
 
 # QQ Plot
 qqnorm(Food_weight$`Exp food intake`)
@@ -81,16 +91,19 @@ qqnorm(Food_weight$`Control food intake`)
 qqline(Food_weight$`Control food intake`, col = "blue")
 
 # Density plot
-ggplot(Food_weight_gg, aes(x = Intake, fill = Group)) +
+Food_weight_density <- ggplot(Food_weight_gg, aes(x = Intake, fill = Group)) +
   geom_density(alpha = 0.5) +
   theme_minimal() +
   labs(title = "Density Plot of Food Intake by Group")
+Food_weight_density
+ggsave(Food_weight_density,filename = "Outputs/Food_weight_density.png",width = 15,
+       height = 15,units = "cm")
+
 
 # Mann–Whitney U test
 wilcox.test(Food_weight$`Exp food intake`, Food_weight$`Control food intake`, paired = TRUE)
-# V = 77, p-value = 0.6685
+# V = 76, p-value = 0.3894
 # alternative hypothesis: true location shift is not equal to 0
-
 
 
 
@@ -175,7 +188,7 @@ Dura_sum_gg <- Dura_sum %>%
 Dura_sum_box <- ggplot(data=Dura_sum_gg,
                           mapping=aes(x = Group, y = Duration, fill = Group))+
   geom_boxplot() +
-  labs(title = "Duration by Group (First Six Individuals)", y = "Duration (s)", x = "")
+  labs(title = "Total Contact Time (First Six Individuals)", y = "Duration (s)", x = "")
 Dura_sum_box
 ggsave(Dura_sum_box,filename = "Outputs/Dura_sum_box.png",width = 15,
        height = 15,units = "cm")
@@ -195,15 +208,52 @@ exp_df <- data.frame(Duration = unlist(List_Exp),
 ctr_df <- data.frame(Duration = unlist(List_Ctr),
                          Group = "Control")
 
-df_all <- rbind(exp_df, ctr_df)
+Dura_each <- rbind(exp_df, ctr_df)
 
-Dura_density <- ggplot(df_all, aes(x = Duration, color = Group, fill = Group)) +
+# ggplot
+Dura_each_box <- ggplot(data=Dura_each,
+                       mapping=aes(x = Group, y = Duration, fill = Group))+
+  geom_boxplot() +
+  labs(title = "Contact Time per Contact (First Six Individuals)", y = "Duration (s)", x = "")
+Dura_each_box
+ggsave(Dura_each_box,filename = "Outputs/Dura_each_box.png",width = 15,
+       height = 15,units = "cm")
+
+
+Dura_density <- ggplot(Dura_each, aes(x = Duration, color = Group, fill = Group)) +
   geom_density(alpha = 0.4) +
   labs(x = "Contact Duration (s)", y = "Density", title = "Contact Duration Density Plot")
 Dura_density 
 ggsave(Dura_density ,filename = "Outputs/Dura_density.png",width = 15,
        height = 15,units = "cm")
 
-ggplot(df_all, aes(x = Duration, fill = Group)) +
+Dura_histogram <- ggplot(Dura_each, aes(x = Duration, fill = Group)) +
   geom_histogram(position = "identity", alpha = 0.5, bins = 30) +
   labs(x = "Contact duration (s)", y = "Count", fill = "Object", title = "Contact Duration Histogram")
+Dura_histogram
+ggsave(Dura_histogram,filename = "Outputs/Dura_histogram.png",width = 15,
+       height = 15,units = "cm")
+
+
+# 常態性檢定:Shapiro-Wilk test
+shapiro.test(exp_df$Duration) # W = 0.60328, p-value < 2.2e-16
+shapiro.test(ctr_df$Duration) # W = 0.56238, p-value < 2.2e-16
+
+# QQ Plot
+qqnorm(exp_df$Duration)
+qqline(exp_df$Duration, col = "red")
+
+qqnorm(ctr_df$Duration)
+qqline(ctr_df$Duration, col = "blue")
+
+
+# Mann–Whitney U test
+wilcox.test(exp_df$Duration, ctr_df$Duration)
+# data:  exp_df$Duration and ctr_df$Duration
+# W = 34618, p-value = 0.4193
+# alternative hypothesis: true location shift is not equal to 0
+
+wilcox.test(Dura_each$Duration~Dura_each$Group)
+# data:  Dura_each$Duration by Dura_each$Group
+# W = 31883, p-value = 0.4193
+# alternative hypothesis: true location shift is not equal to 0
