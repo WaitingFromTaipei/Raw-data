@@ -34,7 +34,8 @@ Trial9_Ctr <- read_tsv("trial-9/20241026_trial-9_59187_R.tsv")
 
 Food_weight <- Info %>% select(Trial, `Exp剩餘食物量(g)`,`Control剩餘食物量(g)`,
                                `Exp被叼出食物量(g)`,`Control被叼出食物量(g)`) 
-  
+
+# 刪去部分數據（未在實驗當下準備食物／將叼出食物放回盤內秤重／因錄影失誤而重複進行之實驗）
 Food_weight <- Food_weight %>% slice(-1,-2,-3,-9) # slice:使用橫列索引選取特定橫列
 
 Food_weight$`Exp被叼出食物量(g)` <- as.numeric(Food_weight$`Exp被叼出食物量(g)`)
@@ -56,7 +57,7 @@ summary(Food_weight$`Control food intake`)
 # Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 # 0.250   0.695   1.130   1.531   2.030   4.720 
 
-
+# boxplot
 # base
 boxplot(Food_weight$`Exp food intake`, Food_weight$`Control food intake`)
 
@@ -76,9 +77,20 @@ Food_weight_box <- ggplot(data=Food_weight_gg,
 Food_weight_box
 ggsave(Food_weight_box,filename = "Outputs/Food_weight_box.png",width = 15,
        height = 15,units = "cm")
+
 # histogram
+# base
 hist(Food_weight$`Exp food intake`)
 hist(Food_weight$`Control food intake`)
+
+# ggplot
+Food_weight_histogram <- ggplot(Food_weight_gg, aes(x = Intake , fill = Group)) +
+  geom_histogram(position = "identity", alpha = 0.5, bins = 30) +
+  labs(title = "Food Intake Histogram")
+Food_weight_histogram
+ggsave(Food_weight_histogram,filename = "Outputs/Food_weight_histogram.png",width = 15,
+       height = 15,units = "cm")
+
 # 常態性檢定:Shapiro-Wilk test
 shapiro.test(Food_weight$`Exp food intake`) # W = 0.87456, p-value = 0.03938
 shapiro.test(Food_weight$`Control food intake`) # W = 0.87289, p-value = 0.03721
@@ -97,6 +109,7 @@ Food_weight_density <- ggplot(Food_weight_gg, aes(x = Intake, fill = Group)) +
 Food_weight_density
 ggsave(Food_weight_density,filename = "Outputs/Food_weight_density.png",width = 15,
        height = 15,units = "cm")
+
 
 
 # Mann–Whitney U test
@@ -171,11 +184,12 @@ summary(sum_exp)
 summary(sum_ctr)
 # Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 # 433.9   493.7   662.8   646.5   798.1   839.1 
-  
+
+
+
+# boxplot 
 # base
 boxplot(Dura_sum$sum_exp,Dura_sum$sum_ctr)
-hist(Dura_sum$sum_exp)
-hist(Dura_sum$sum_ctr)
 
 # ggplot
 Dura_sum_gg <- Dura_sum %>%
@@ -185,12 +199,32 @@ Dura_sum_gg <- Dura_sum %>%
                values_to = "Duration")
 
 Dura_sum_box <- ggplot(data=Dura_sum_gg,
-                          mapping=aes(x = Group, y = Duration, fill = Group))+
+                       mapping=aes(x = Group, y = Duration, fill = Group))+
   geom_boxplot() +
   labs(title = "Total Contact Time (First Six Individuals)", y = "Duration (s)", x = "")
 Dura_sum_box
 ggsave(Dura_sum_box,filename = "Outputs/Dura_sum_box.png",width = 15,
        height = 15,units = "cm")
+
+# histogram
+# base
+hist(Dura_sum$sum_exp)
+hist(Dura_sum$sum_ctr)
+
+# density plot
+# ggplot
+Dura_sum_density <- ggplot(Dura_sum_gg, aes(x = Duration, color = Group, fill = Group)) +
+  geom_density(alpha = 0.4) +
+  labs(title = "Total contact time (First Six Individuals)")
+Dura_sum_density
+ggsave(Dura_sum_density,filename = "Outputs/Dura_sum_density.png",width = 15,
+       height = 15,units = "cm")
+
+# Mann–Whitney U test
+wilcox.test(Dura_sum$sum_exp, Dura_sum$sum_ctr, paired = TRUE)
+# V = 12, p-value = 0.8438
+# alternative hypothesis: true location shift is not equal to 0
+
 
 
 # 每次接觸時長
@@ -210,6 +244,7 @@ ctr_df <- data.frame(Duration = unlist(List_Ctr),
 Dura_each <- rbind(exp_df, ctr_df)
 
 # ggplot
+# boxplot
 Dura_each_box <- ggplot(data=Dura_each,
                        mapping=aes(x = Group, y = Duration, fill = Group))+
   geom_boxplot() +
@@ -218,7 +253,7 @@ Dura_each_box
 ggsave(Dura_each_box,filename = "Outputs/Dura_each_box.png",width = 15,
        height = 15,units = "cm")
 
-
+# density plot
 Dura_density <- ggplot(Dura_each, aes(x = Duration, color = Group, fill = Group)) +
   geom_density(alpha = 0.4) +
   labs(x = "Contact Duration (s)", y = "Density", title = "Contact Duration Density Plot")
@@ -226,6 +261,7 @@ Dura_density
 ggsave(Dura_density ,filename = "Outputs/Dura_density.png",width = 15,
        height = 15,units = "cm")
 
+# histogram
 Dura_histogram <- ggplot(Dura_each, aes(x = Duration, fill = Group)) +
   geom_histogram(position = "identity", alpha = 0.5, bins = 30) +
   labs(x = "Contact duration (s)", y = "Count", fill = "Object", title = "Contact Duration Histogram")
@@ -247,12 +283,7 @@ qqline(ctr_df$Duration, col = "blue")
 
 
 # Mann–Whitney U test
-wilcox.test(exp_df$Duration, ctr_df$Duration)
+wilcox.test(exp_df$Duration, ctr_df$Duration, paired = FALSE)
 # data:  exp_df$Duration and ctr_df$Duration
 # W = 34618, p-value = 0.4193
-# alternative hypothesis: true location shift is not equal to 0
-
-wilcox.test(Dura_each$Duration~Dura_each$Group)
-# data:  Dura_each$Duration by Dura_each$Group
-# W = 31883, p-value = 0.4193
 # alternative hypothesis: true location shift is not equal to 0
