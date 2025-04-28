@@ -220,6 +220,18 @@ Dura_sum_density
 ggsave(Dura_sum_density,filename = "Outputs/Dura_sum_density.png",width = 15,
        height = 15,units = "cm")
 
+# 常態性檢定:Shapiro-Wilk test
+shapiro.test(Dura_sum$sum_exp) # W = 0.78507, p-value = 0.04295
+shapiro.test(Dura_sum$sum_ctr) # W = 0.88995, p-value = 0.3179
+
+# QQ Plot
+qqnorm(Dura_sum$sum_exp)
+qqline(Dura_sum$sum_exp, col = "red")
+
+qqnorm(Dura_sum$sum_ctr)
+qqline(Dura_sum$sum_ctr, col = "blue")
+
+
 # Mann–Whitney U test
 wilcox.test(Dura_sum$sum_exp, Dura_sum$sum_ctr, paired = TRUE)
 # V = 12, p-value = 0.8438
