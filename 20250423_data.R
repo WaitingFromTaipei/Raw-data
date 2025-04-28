@@ -93,7 +93,6 @@ qqline(Food_weight$`Control food intake`, col = "blue")
 # Density plot
 Food_weight_density <- ggplot(Food_weight_gg, aes(x = Intake, fill = Group)) +
   geom_density(alpha = 0.5) +
-  theme_minimal() +
   labs(title = "Density Plot of Food Intake by Group")
 Food_weight_density
 ggsave(Food_weight_density,filename = "Outputs/Food_weight_density.png",width = 15,
