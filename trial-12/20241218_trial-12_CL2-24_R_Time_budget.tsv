@@ -1,0 +1,5 @@
+Observation id	Observation date	Description	Time budget start	Time budget stop	Time budget duration	Subject	Behavior	Modifiers	Total number of occurences	Total duration (s)	Duration mean (s)	Duration std dev	inter-event intervals mean (s)	inter-event intervals std dev	% of total length
+20241218_trial-12_CL2-24_R	2025-04-14 14:07:56.797		Limited to coded events	Limited to coded events	Limited to coded events	20241030 CL2-24 Ak F	Right cage		34	806.768	23.728	32.726	27.947	46.648	44.800
+20241218_trial-12_CL2-24_R	2025-04-14 14:07:56.797		Limited to coded events	Limited to coded events	Limited to coded events	20241030 CL2-24 Ak F	Foraging		5	NA	NA	NA	350.225	299.599	NA
+20241218_trial-12_CL2-24_R	2025-04-14 14:07:56.797		Limited to coded events	Limited to coded events	Limited to coded events	20241030 CL2-24 Ak F	Sniffing		42	NA	NA	NA	41.920	83.316	NA
+20241218_trial-12_CL2-24_R	2025-04-14 14:07:56.797		Limited to coded events	Limited to coded events	Limited to coded events	20241030 CL2-24 Ak F	START		1	NA	NA	NA	NA	NA	NA

@@ -1,0 +1,5 @@
+Observation id	Observation date	Description	Time budget start	Time budget stop	Time budget duration	Subject	Behavior	Modifiers	Total number of occurences	Total duration (s)	Duration mean (s)	Duration std dev	inter-event intervals mean (s)	inter-event intervals std dev	% of total length
+20250216_trial-16_CL5-5_R	2025-05-09 10:02:40.178		Limited to coded events	Limited to coded events	Limited to coded events	20241226 CL5-5 Ak M	Right cage		7	48.667	6.952	11.463	178.505	436.399	2.700
+20250216_trial-16_CL5-5_R	2025-05-09 10:02:40.178		Limited to coded events	Limited to coded events	Limited to coded events	20241226 CL5-5 Ak M	Sniffing		8	NA	NA	NA	3.333	7.633	NA
+20250216_trial-16_CL5-5_R	2025-05-09 10:02:40.178		Limited to coded events	Limited to coded events	Limited to coded events	20241226 CL5-5 Ak M	START		1	NA	NA	NA	NA	NA	NA
+20250216_trial-16_CL5-5_R	2025-05-09 10:02:40.178		Limited to coded events	Limited to coded events	Limited to coded events	20241226 CL5-5 Ak M	STOP		1	NA	NA	NA	NA	NA	NA

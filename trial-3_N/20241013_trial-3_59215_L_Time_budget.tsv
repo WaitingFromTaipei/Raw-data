@@ -1,0 +1,8 @@
+Observation id	Observation date	Description	Time budget start	Time budget stop	Time budget duration	Subject	Behavior	Modifiers	Total number of occurences	Total duration (s)	Duration mean (s)	Duration std dev	inter-event intervals mean (s)	inter-event intervals std dev	% of total length
+20241013_trial-3_59215_L	2025-01-16 11:26:01.702		Limited to coded events	Limited to coded events	Limited to coded events	59215	Left cage		56	819.600	14.636	26.656	17.825	33.499	45.500
+20241013_trial-3_59215_L	2025-01-16 11:26:01.702		Limited to coded events	Limited to coded events	Limited to coded events	59215	Sniffing		90	NA	NA	NA	19.726	56.568	NA
+20241013_trial-3_59215_L	2025-01-16 11:26:01.702		Limited to coded events	Limited to coded events	Limited to coded events	59215	Foraging		14	NA	NA	NA	135.474	109.309	NA
+20241013_trial-3_59215_L	2025-01-16 11:26:01.702		Limited to coded events	Limited to coded events	Limited to coded events	59215	holding food		1	NA	NA	NA	NA	NA	NA
+20241013_trial-3_59215_L	2025-01-16 11:26:01.702		Limited to coded events	Limited to coded events	Limited to coded events	59215	placing food down		2	NA	NA	NA	197.866	NA	NA
+20241013_trial-3_59215_L	2025-01-16 11:26:01.702		Limited to coded events	Limited to coded events	Limited to coded events	59215	START		1	NA	NA	NA	NA	NA	NA
+20241013_trial-3_59215_L	2025-01-16 11:26:01.702		Limited to coded events	Limited to coded events	Limited to coded events	59215	STOP		1	NA	NA	NA	NA	NA	NA

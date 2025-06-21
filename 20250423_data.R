@@ -174,8 +174,9 @@ sum_exp<- c(sum(Dura3_exp$Duration), sum(Dura4_exp$Duration),
 sum_ctr<- c(sum(Dura3_ctr$Duration), sum(Dura4_ctr$Duration),
             sum(Dura5_ctr$Duration), sum(Dura6_ctr$Duration),
             sum(Dura7_ctr$Duration), sum(Dura9_ctr$Duration))
-
+  
 Dura_sum <- data.frame(sum_exp, sum_ctr)
+write.csv(Dura_sum, file = "Outputs/Dura_each.csv")
 
 # summary
 summary(sum_exp)
@@ -211,10 +212,18 @@ ggsave(Dura_sum_box,filename = "Outputs/Dura_sum_box.png",width = 15,
 hist(Dura_sum$sum_exp)
 hist(Dura_sum$sum_ctr)
 
+# ggplot
+Dura_sum_histogram <- ggplot(Dura_sum_gg, aes(x = Duration , fill = Group)) +
+  geom_histogram(position = "identity", alpha = 0.5, bins = 30) +
+  labs(title = "Total contact time (First Six Individuals)")
+Dura_sum_histogram
+ggsave(Dura_sum_histogram,filename = "Outputs/Dura_sum_histogram.png",width = 15,
+       height = 15,units = "cm")
+
 # density plot
 # ggplot
-Dura_sum_density <- ggplot(Dura_sum_gg, aes(x = Duration, color = Group, fill = Group)) +
-  geom_density(alpha = 0.4) +
+Dura_sum_density <- ggplot(Dura_sum_gg, aes(x = Duration, fill = Group)) +
+  geom_density(alpha = 0.5) +
   labs(title = "Total contact time (First Six Individuals)")
 Dura_sum_density
 ggsave(Dura_sum_density,filename = "Outputs/Dura_sum_density.png",width = 15,
@@ -254,6 +263,15 @@ ctr_df <- data.frame(Duration = unlist(List_Ctr),
                          Group = "Control")
 
 Dura_each <- rbind(exp_df, ctr_df)
+
+
+# summary
+summary(exp_df$Duration)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.100   2.242   7.133  16.281  17.041 185.366
+summary(ctr_df$Duration)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.067   1.500   6.849  14.583  15.408 191.634
 
 # ggplot
 # boxplot

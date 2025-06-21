@@ -1,0 +1,7 @@
+Observation id	Observation date	Description	Time budget start	Time budget stop	Time budget duration	Subject	Behavior	Modifiers	Total number of occurences	Total duration (s)	Duration mean (s)	Duration std dev	inter-event intervals mean (s)	inter-event intervals std dev	% of total length
+20241024_trial-7_yellow_R	2025-01-20 09:33:24.719		Limited to coded events	Limited to coded events	Limited to coded events	20240330-59045-59028 baby 3 yellow	Right cage		55	718.929	13.071	32.149	20.128	26.289	39.800
+20241024_trial-7_yellow_R	2025-01-20 09:33:24.719		Limited to coded events	Limited to coded events	Limited to coded events	20240330-59045-59028 baby 3 yellow	Sniffing		25	NA	NA	NA	53.444	92.241	NA
+20241024_trial-7_yellow_R	2025-01-20 09:33:24.719		Limited to coded events	Limited to coded events	Limited to coded events	20240330-59045-59028 baby 3 yellow	Foraging		4	NA	NA	NA	418.655	344.555	NA
+20241024_trial-7_yellow_R	2025-01-20 09:33:24.719		Limited to coded events	Limited to coded events	Limited to coded events	20240330-59045-59028 baby 3 yellow	holding food		2	NA	NA	NA	1327.100	NA	NA
+20241024_trial-7_yellow_R	2025-01-20 09:33:24.719		Limited to coded events	Limited to coded events	Limited to coded events	20240330-59045-59028 baby 3 yellow	START		1	NA	NA	NA	NA	NA	NA
+20241024_trial-7_yellow_R	2025-01-20 09:33:24.719		Limited to coded events	Limited to coded events	Limited to coded events	20240330-59045-59028 baby 3 yellow	STOP		1	NA	NA	NA	NA	NA	NA

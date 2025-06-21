@@ -1,0 +1,6 @@
+Observation id	Observation date	Description	Time budget start	Time budget stop	Time budget duration	Subject	Behavior	Modifiers	Total number of occurences	Total duration (s)	Duration mean (s)	Duration std dev	inter-event intervals mean (s)	inter-event intervals std dev	% of total length
+20250219_trial-19_CL3-8-2_L	2025-05-09 10:04:30.543		Limited to coded events	Limited to coded events	Limited to coded events	20241225 CL3-8-2 Ak M	Left cage		49	787.196	16.065	32.708	17.885	41.862	43.700
+20250219_trial-19_CL3-8-2_L	2025-05-09 10:04:30.543		Limited to coded events	Limited to coded events	Limited to coded events	20241225 CL3-8-2 Ak M	Foraging		5	NA	NA	NA	258.283	179.735	NA
+20250219_trial-19_CL3-8-2_L	2025-05-09 10:04:30.543		Limited to coded events	Limited to coded events	Limited to coded events	20241225 CL3-8-2 Ak M	Sniffing		10	NA	NA	NA	182.056	287.521	NA
+20250219_trial-19_CL3-8-2_L	2025-05-09 10:04:30.543		Limited to coded events	Limited to coded events	Limited to coded events	20241225 CL3-8-2 Ak M	START		1	NA	NA	NA	NA	NA	NA
+20250219_trial-19_CL3-8-2_L	2025-05-09 10:04:30.543		Limited to coded events	Limited to coded events	Limited to coded events	20241225 CL3-8-2 Ak M	STOP		1	NA	NA	NA	NA	NA	NA
