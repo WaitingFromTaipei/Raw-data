@@ -11,48 +11,64 @@ Info <- read.xlsx("20250621高田前測進度.xlsx")
 
 # 影片紀錄
 # 實驗組(E)/對照組(C)
+
+# Trial 3: 排遺放置於右側
 Tr3_E <- read_tsv("trial-3_N/20241013_trial-3_59215_R_Time_budget.tsv")
 Tr3_C <- read_tsv("trial-3_N/20241013_trial-3_59215_L_Time_budget.tsv")
 
+# Trial 4: 排遺放置於左側
 Tr4_E <- read_tsv("trial-4_N/20241018_trial-4_59181_L_Time_budget.tsv")
 Tr4_C <- read_tsv("trial-4_N/20241018_trial-4_59181_R_Time_budget.tsv")
 
+# Trial 5: 排遺放置於左側
 Tr5_E <- read_tsv("trial-5_N/20241017_trial-5_12693_L_Time_budget.tsv")
 Tr5_C <- read_tsv("trial-5_N/20241017_trial-5_12693_R_Time_budget.tsv")
 
+# Trial 6: 排遺放置於右側
 Tr6_E <- read_tsv("trial-6_N/20241017_trial-6_59200_R_Time_budget.tsv")
 Tr6_C <- read_tsv("trial-6_N/20241017_trial-6_59200_L_Time_budget.tsv")
 
+# Trial 7: 排遺放置於左側
 Tr7_E <- read_tsv("trial-7_N/20241024_trial-7_yellow_L_Time_budget.tsv")
 Tr7_C <- read_tsv("trial-7_N/20241024_trial-7_yellow_R_Time_budget.tsv")
 
-Tr9_E <- read_tsv("trial-9_N/20241026_trial-9_59187_R_Time_budget.tsv")
-Tr9_C <- read_tsv("trial-9_N/20241026_trial-9_59187_L_Time_budget.tsv")
+# Trial 9: 排遺放置於左側
+Tr9_E <- read_tsv("trial-9_N/20241026_trial-9_59187_L_Time_budget.tsv")
+Tr9_C <- read_tsv("trial-9_N/20241026_trial-9_59187_R_Time_budget.tsv")
 
+# Trial 10: 排遺放置於右側
 Tr10_E <- read_tsv("trial-10/20241217_trial-10_CL2-23_R_Time_budget.tsv")
 Tr10_C <- read_tsv("trial-10/20241217_trial-10_CL2-23_L_Time_budget.tsv")
 
+# Trial 11: 排遺放置於左側
 Tr11_E <- read_tsv("trial-11/20241218_trial-11_CL2-16_L_Time_budget.tsv")
 Tr11_C <- read_tsv("trial-11/20241218_trial-11_CL2-16_R_Time_budget.tsv")
 
+# Trial 12: 排遺放置於右側
 Tr12_E <- read_tsv("trial-12/20241218_trial-12_CL2-24_R_Time_budget.tsv")
 Tr12_C <- read_tsv("trial-12/20241218_trial-12_CL2-24_L_Time_budget.tsv")
 
-Tr13_E <- read_tsv("trial-13/20241218_trial-13_CL1-7_R_Time_budget.tsv")
-Tr13_C <- read_tsv("trial-13/20241218_trial-13_CL1-7_L_Time_budget.tsv")
+# Trial 13: 排遺放置於左側
+Tr13_E <- read_tsv("trial-13/20241218_trial-13_CL1-7_L_Time_budget.tsv")
+Tr13_C <- read_tsv("trial-13/20241218_trial-13_CL1-7_R_Time_budget.tsv")
 
-Tr14_E <- read_tsv("trial-14/20241218_trial-14_CL1-4_L_Time_budget.tsv")
-Tr14_C <- read_tsv("trial-14/20241218_trial-14_CL1-4_R_Time_budget.tsv")
+# Trial 14: 排遺放置於右側
+Tr14_E <- read_tsv("trial-14/20241218_trial-14_CL1-4_R_Time_budget.tsv")
+Tr14_C <- read_tsv("trial-14/20241218_trial-14_CL1-4_L_Time_budget.tsv")
 
+# Trial 16: 排遺放置於右側
 Tr16_E <- read_tsv("trial-16/20250216_trial-16_CL5-5_R_Time_budget.tsv")
 Tr16_C <- read_tsv("trial-16/20250216_trial-16_CL5-5_L_Time_budget.tsv")
 
+# Trial 17: 排遺放置於左側
 Tr17_E <- read_tsv("trial-17/20250217_trial-17_CL5-14_L_Time_budget.tsv")
 Tr17_C <- read_tsv("trial-17/20250217_trial-17_CL5-14_R_Time_budget.tsv")
 
+# Trial 18: 排遺放置於右側
 Tr18_E <- read_tsv("trial-18/20250217_trial-18_CL3-20_R_Time_budget.tsv")
 Tr18_C <- read_tsv("trial-18/20250217_trial-18_CL3-20_L_Time_budget.tsv")
 
+# Trial 19: 排遺放置於右側
 Tr19_E <- read_tsv("trial-19/20250219_trial-19_CL3-8-2_R_Time_budget.tsv")
 Tr19_C <- read_tsv("trial-19/20250219_trial-19_CL3-8-2_L_Time_budget.tsv")
 
@@ -78,12 +94,22 @@ str(Food_weight)
 
 # Dependent-Samples Sign Test
 SIGN.test(Food_weight$intake_E, Food_weight$intake_C, alternative = "two.sided")
+
+# data:  Food_weight$intake_E and Food_weight$intake_C
 # S = 8, p-value = 0.7905
+# alternative hypothesis: true median difference is not equal to 0
 # 95 percent confidence interval:
-#  -0.6580769  1.7082967
+# -0.6580769  1.7082967
 # sample estimates:
 # median of x-y 
-#           0.24  
+#           0.24 
+
+# Achieved and Interpolated Confidence Intervals: 
+  
+#                   Conf.Level  L.E.pt U.E.pt
+# Lower Achieved CI     0.9426 -0.6000 1.7000
+# Interpolated CI       0.9500 -0.6581 1.7083
+# Upper Achieved CI     0.9871 -0.9500 1.7500
 
 
 
@@ -107,18 +133,19 @@ Time_C <- floor(Time_C)
 
 Time <- data.frame(Time_E, Time_C)
 Time <- Time %>% mutate(Difference = Time_E - Time_C)
+str(Time)
 
 # summary
 summary(Time_E)
 # Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-# 48.0   500.5   808.0   705.7   900.0  1266.0 
+# 48.0   489.0   806.0   675.6   900.0  1084.0 
 summary(Time_C)
 # Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-# 111.0   444.5   604.0   647.1   803.0  1385.0
+# 111.0   433.5   718.0   677.3   828.5  1385.0 
 
 # Shapiro-Wilk test
-shapiro.test(Time_E) # W = 0.9541, p-value = 0.5911
-shapiro.test(Time_C) # W = 0.96128, p-value = 0.7146
+shapiro.test(Time_E) # W = 0.92456, p-value = 0.226
+shapiro.test(Time_C) # W = 0.95744, p-value = 0.648
 
 # QQ Plot
 qqnorm(Time_E)
@@ -130,14 +157,21 @@ qqline(Time_C, col = "blue")
 # Dependent-Samples Sign Test
 SIGN.test(Time_E, Time_C, alternative = "two.sided")
 
-# S = 9, p-value = 0.6072
-
+# data:  Time_E and Time_C
+# S = 8, p-value = 1
+# alternative hypothesis: true median difference is not equal to 0
 # 95 percent confidence interval:
-# -299.2409  466.8218
-
+#  -345.5169  466.8218
 # sample estimates:
-# median of x-y
-#           204
+# median of x-y 
+#           69 
+
+# Achieved and Interpolated Confidence Intervals: 
+  
+#                   Conf.Level    L.E.pt   U.E.pt
+# Lower Achieved CI     0.8815 -311.0000 466.0000
+# Interpolated CI       0.9500 -345.5169 466.8218
+# Upper Achieved CI     0.9648 -353.0000 467.0000
 
 # ggplot
 Time_gg <- Time %>%
@@ -193,14 +227,14 @@ Sniff <- Sniff %>% mutate(Difference = Sniff_E - Sniff_C)
 # summary
 summary(Sniff_E)
 # Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-# 7.00   11.00   22.00   27.93   40.00   75.00
+# 7.0    13.0    25.0    31.0    40.5    85.0 
 summary(Sniff_C)
 # Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-# 8.0    13.5    25.0    33.0    40.0    90.0 
+# 8.00   11.50   23.00   29.93   37.50   90.00 
 
-# 常態性檢定:Shapiro-Wilk test
-shapiro.test(Sniff_E) # W = 0.83673, p-value = 0.01133
-shapiro.test(Sniff_C) # W = 0.83282, p-value = 0.01001
+# Shapiro-Wilk test
+shapiro.test(Sniff_E) # W = 0.86258, p-value = 0.02629
+shapiro.test(Sniff_C) # W = 0.82397, p-value = 0.007592
 
 # QQ Plot
 qqnorm(Sniff_E)
@@ -209,15 +243,24 @@ qqline(Sniff_E, col = "red")
 qqnorm(Sniff_C)
 qqline(Sniff_C, col = "blue")
 
-
 # Dependent-Samples Sign Test
 SIGN.test(Sniff_E, Sniff_C, alternative = "two.sided")
-# S = 7, p-value = 1
+
+# data:  Sniff_E and Sniff_C
+# S = 8, p-value = 1
+# alternative hypothesis: true median difference is not equal to 0
 # 95 percent confidence interval:
 #  -13.93099  10.93099
 # sample estimates:
 # median of x-y 
-#           -4 
+#           1 
+
+# Achieved and Interpolated Confidence Intervals: 
+  
+#                   Conf.Level  L.E.pt U.E.pt
+# Lower Achieved CI     0.8815  -9.000  6.000
+# Interpolated CI       0.9500 -13.931 10.931
+# Upper Achieved CI     0.9648 -15.000 12.000
 
 
 # ggplot
